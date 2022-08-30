@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "my_string_functions.h"
 
@@ -57,6 +56,7 @@ int Strcmp (const char * s1, const char * s2)
     }
 
     return s1[i] - s2[i];
+    /// !! (s1[i] - s2[i]) returnes 1 or 0;
 }
 
 char * Strcat (char * s1, const char * s2)
@@ -82,17 +82,27 @@ char * Strncpy (char * dst, const char * src, int n)
 {
     if (Strlen(src) < n)
     {
-        Strcpy(dst, src);
+        int i = 0;
+
+        while ((dst[i] = src[i]) != '\0')
+        {
+            i++;
+        }
+
+        while (i < n)
+        {
+            dst[i] = '\0';
+            i++;
+        }
     }
     else
     {
         int i = 0;
-        while (i != n - 1)
+        while (i < n)
         {
             dst[i] = src[i];
             i++;
         }
-        dst[i] = '\0';
     }
     return dst;
 }
@@ -108,7 +118,7 @@ char * Strncat (char * dst, const char * src, int n)
 
     int i = 0;
 
-    while (i != n - 1)
+    while (i <= n)
     {
         dst[i] = src[i];
         i++;
@@ -142,7 +152,7 @@ char * Strdup (const char * dst)
 
     char * src;
 
-    src = (char *) malloc (len_src * sizeof(char));
+    src = (char *) calloc (len_src, sizeof(char));
 
     Strcpy (src, dst);
 
